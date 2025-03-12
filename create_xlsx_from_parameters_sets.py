@@ -13,12 +13,12 @@ PARAM_SETS_CESOGEN = {
 }
 
 PARAM_SETS_CAHN_HILLIARD = {
-    #"SEED"       : [1.0, 2.0, 3.0, 4.0, 5.0],
-    #"SOLIDITY"   : [0.45, 0.50, 0.55],
-    #"TIME_END"   : [0.2e-5, 0.4e-5, 0.8e-5, 1.6e-5, 3.2e-5],
-    "SEED"       : [1.0],
-    "SOLIDITY"   : [0.45],
-    "TIME_END"   : [0.2e-5],
+    #"SEED"       : [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
+    #"SOLIDITY"   : [0.50],
+    ##"TIME_END"   : [0.2e-5, 0.4e-5, 0.8e-5, 1.6e-5, 3.2e-5],
+    "SEED"       : [9.0],
+    "SOLIDITY"   : [0.50],
+    "TIME_END"   : [0.2e-5, 0.4e-5, 0.8e-5, 1.6e-5, 3.2e-5],
 }
 
 def generate_id(type_str, param_names, param_values):
@@ -84,7 +84,7 @@ def run():
 
     # Uncomment one of the following calls:
     # For Cesogen:
-    #main(0, output_file)
+    main(0, output_file)
     
     # For Cahn-Hilliard:
     main(1, output_file)

@@ -14,7 +14,7 @@ create_xlsx_from_parameters_sets.run()
 # 2. 
 generation_from_xlsx.run()
 # 3. 
-postprocess_generated_media.run()
+#postprocess_generated_media.run()
 # 4. 
 #stl_to_rbf.run()
 # 5. 

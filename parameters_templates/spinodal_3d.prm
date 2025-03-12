@@ -40,7 +40,7 @@ end
 
 subsection initial conditions
   subsection cahn hilliard
-    set Function expression = 2*rand_seed(SEED+SOLIDITY) -1 + (SOLIDITY - 0.5); 0
+    set Function expression = max(-1, min(1, 2 * rand_seed(SEED + SOLIDITY) - 1 + (SOLIDITY - 0.5))); 0
   end
 end
 
@@ -127,7 +127,7 @@ subsection physical properties
   set number of material interactions = 1
   subsection material interaction 0
     subsection fluid-fluid interaction
-      set surface tension coefficient     = 1
+      set surface tension coefficient     = 4
       set cahn hilliard mobility constant = 1
     end
   end
@@ -148,8 +148,10 @@ end
 
 subsection linear solver
   subsection cahn hilliard
-    set relative residual = 1e-8
+    set relative residual = 1e-5
     set minimum residual  = 1e-12
   end
 end
+
+
 
