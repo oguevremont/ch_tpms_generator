@@ -1,0 +1,4 @@
+working_directory/
+executables_and_scripts/
+*.csv
+*.xlsx
