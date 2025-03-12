@@ -1,4 +1,6 @@
-working_directory/
+working_directory_ch/
+generated_media/
 executables_and_scripts/
+__pycache__/
 *.csv
 *.xlsx

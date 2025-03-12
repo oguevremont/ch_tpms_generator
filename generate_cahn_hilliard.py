@@ -8,7 +8,7 @@ run_lethe                    = True
 run_paraview                 = True
 keep_working_dir_contents    = True
 remove_working_directory     = False
-n_cores                      = 8
+n_cores                      = 4
 
 
 ############## File parameters ###################
@@ -21,6 +21,55 @@ executable_script_lethe_to_stl       = "ch_to_stl.py"
 
 template_cahn_hilliard_prm           = "spinodal_3d.prm"
 template_cahn_hilliard_prm_restart   = "spinodal_3d_restart.prm"
+
+BLOCK_OF_TEXT_HERE = """\
+# This is the replacement text when CH_NS is 'none' (which is for when we want periodic BC)
+  set number         = 3
+  set time dependent = false
+  subsection bc 0
+    set id   = 0
+    set type          = periodic
+    set periodic_id        = 1
+    set periodic_direction = 0
+  end
+  subsection bc 1
+    set id   = 2
+    set type          = periodic
+    set periodic_id        = 3
+    set periodic_direction = 1
+  end
+  subsection bc 2
+    set id   = 4
+    set type          = periodic
+    set periodic_id        = 5
+    set periodic_direction = 2
+  end
+"""
+
+OTHER_BLOCK_OF_TEXT_HERE = """\
+# This is the replacement text when CH_NS is not 'none' 
+  set number         = 6
+  set time dependent = false
+  subsection bc 0
+    set id   = 0
+  end
+  subsection bc 1
+    set id   = 1
+  end
+  subsection bc 2
+    set id   = 2
+  end
+  subsection bc 3
+    set id   = 3
+  end
+  subsection bc 4
+    set id   = 4
+  end
+  subsection bc 5
+    set id   = 5
+  end
+"""
+
 
 
 def copy_all_files(src_directory, dest_directory):
@@ -48,6 +97,11 @@ def substitute_parameters_in_files(directory, param_replacements):
                 # Replace each placeholder with its value.
                 for key, value in param_replacements.items():
                     content = content.replace(key, str(value))
+                    if key == "CH_BC":
+                        if value == "none":
+                            content = content.replace("NS_BC", BLOCK_OF_TEXT_HERE)
+                        else:
+                            content = content.replace("NS_BC", OTHER_BLOCK_OF_TEXT_HERE)
                 with open(filepath, "w") as f:
                     f.write(content)
                 print(f"Updated parameters in file: {filepath}")
@@ -112,7 +166,6 @@ def run(param_original):
             "OUTPUT_FOLDER"             : "output",
             "CHECKPOINT"                : "true",
             "RESTART"                   : "false",
-            "BOUNDARY_CONDITION"        : "noflux",
         }
     param_appended = merge_parameters(param_original, new_parameters)
     executable_absolute_path = os.path.abspath(os.path.join(os.getcwd(), "executables_and_scripts"))

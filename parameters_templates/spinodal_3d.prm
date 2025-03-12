@@ -35,7 +35,7 @@ subsection mesh
   set type               = dealii
   set grid type          = hyper_rectangle
   set grid arguments     = -1, -1, -1 : 1, 1, 1 : true
-  set initial refinement = 6
+  set initial refinement = 5
 end
 
 subsection initial conditions
@@ -45,26 +45,7 @@ subsection initial conditions
 end
 
 subsection boundary conditions 
-  set number         = 6
-  set time dependent = false
-  subsection bc 0
-    set id   = 0
-  end
-  subsection bc 1
-    set id   = 1
-  end
-  subsection bc 2
-    set id   = 2
-  end
-  subsection bc 3
-    set id   = 3
-  end
-  subsection bc 4
-    set id   = 4
-  end
-  subsection bc 5
-    set id   = 5
-  end
+  NS_BC
 end
 
 subsection boundary conditions cahn hilliard
@@ -72,42 +53,42 @@ subsection boundary conditions cahn hilliard
   set time dependent = false
   subsection bc 0
     set id   = 0
-    set type          = BOUNDARY_CONDITION
+    set type          = CH_BC
       subsection phi
           set Function expression = 0
       end
   end
   subsection bc 1
     set id   = 1
-    set type          = BOUNDARY_CONDITION
+    set type          = CH_BC
       subsection phi
           set Function expression = 0
       end
   end
   subsection bc 2
     set id   = 2
-    set type          = BOUNDARY_CONDITION
+    set type          = CH_BC
       subsection phi
           set Function expression = 0
       end
   end
   subsection bc 3
     set id   = 3
-    set type          = BOUNDARY_CONDITION
+    set type          = CH_BC
       subsection phi
           set Function expression = 0
       end
   end
   subsection bc 4
     set id   = 4
-    set type          = BOUNDARY_CONDITION
+    set type          = CH_BC
       subsection phi
           set Function expression = 0
       end
   end
   subsection bc 5
     set id   = 5
-    set type          = BOUNDARY_CONDITION
+    set type          = CH_BC
       subsection phi
           set Function expression = 0
       end
