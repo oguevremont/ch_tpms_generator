@@ -1,0 +1,8 @@
+shapes
+0; rbf             ;                 RBF_NAME;       0:0:0 ; 0:0:0
+1; hyper rectangle ;             10.0:0.5:0.5;       0:0:0 ; 0:0:0
+2; hyper rectangle ;              0.6:0.6:0.6;       0:0:0 ; 0:0:0
+operations
+3; difference    ; 1:2
+4; union         ; 0:3
+
