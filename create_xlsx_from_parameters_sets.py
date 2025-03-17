@@ -6,10 +6,12 @@ import os
 TYPES = ["cesogen", "cahnhilliard"]
 
 PARAM_SETS_CESOGEN = {
-    "TYPE_FILLING": ["gyroid", "p", "d", "iwp", "neovius", "lidinoid"],
+    #"TYPE_FILLING": ["gyroid", "p", "d", "iwp", "neovius", "lidinoid"],
+    "TYPE_FILLING": ["gyroid"],
     "SCALING": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8],
-    #"TYPE_FILLING": ["gyroid"],
-    #"SCALING": [0.2],
+    "THICKNESS": ["dilate_0.05","dilate_0.10","dilate_0.15","dilate_0.20",
+                  " ",
+                  "erode_0.05","erode_0.10","erode_0.15","erode_0.20"],
 }
 
 PARAM_SETS_CAHN_HILLIARD = {
