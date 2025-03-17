@@ -22,8 +22,8 @@ executable_script_lethe_to_stl       = "ch_to_stl.py"
 template_cahn_hilliard_prm           = "spinodal_3d.prm"
 template_cahn_hilliard_prm_restart   = "spinodal_3d_restart.prm"
 
-BLOCK_OF_TEXT_HERE = """\
-# This is the replacement text when CH_NS is 'none' (which is for when we want periodic BC)
+BC_PARAMETERS_FOR_PERIODIC = """\
+# This is the replacement text when CH_NS is 'periodic' (which is for when we want periodic BC)
   set number         = 3
   set time dependent = false
   subsection bc 0
@@ -46,7 +46,7 @@ BLOCK_OF_TEXT_HERE = """\
   end
 """
 
-OTHER_BLOCK_OF_TEXT_HERE = """\
+BC_PARAMETERS_FOR_NOT_PERIODIC = """\
 # This is the replacement text when CH_NS is not 'none' 
   set number         = 6
   set time dependent = false
@@ -70,7 +70,53 @@ OTHER_BLOCK_OF_TEXT_HERE = """\
   end
 """
 
-
+BC_PARAMETERS_FOR_NOT_PERIODIC_CH = """\
+# This is the replacement text for non-periodic boundary conditions for CH
+  set number         = 6
+  set time dependent = false
+  subsection bc 0
+    set id   = 0
+    set type          = CH_BC
+      subsection phi
+          set Function expression = 0
+      end
+  end
+  subsection bc 1
+    set id   = 1
+    set type          = CH_BC
+      subsection phi
+          set Function expression = 0
+      end
+  end
+  subsection bc 2
+    set id   = 2
+    set type          = CH_BC
+      subsection phi
+          set Function expression = 0
+      end
+  end
+  subsection bc 3
+    set id   = 3
+    set type          = CH_BC
+      subsection phi
+          set Function expression = 0
+      end
+  end
+  subsection bc 4
+    set id   = 4
+    set type          = CH_BC
+      subsection phi
+          set Function expression = 0
+      end
+  end
+  subsection bc 5
+    set id   = 5
+    set type          = CH_BC
+      subsection phi
+          set Function expression = 0
+      end
+  end
+"""
 
 def copy_all_files(src_directory, dest_directory):
     """
@@ -98,10 +144,14 @@ def substitute_parameters_in_files(directory, param_replacements):
                 for key, value in param_replacements.items():
                     content = content.replace(key, str(value))
                     if key == "CH_BC":
-                        if value == "none":
-                            content = content.replace("NS_BC", BLOCK_OF_TEXT_HERE)
+                        if value == "periodic":
+                            content = content.replace("NS_BC", BC_PARAMETERS_FOR_PERIODIC)
+                            content = content.replace("SECTION_BC_CH", 
+                                                      BC_PARAMETERS_FOR_PERIODIC)
                         else:
-                            content = content.replace("NS_BC", OTHER_BLOCK_OF_TEXT_HERE)
+                            content = content.replace("NS_BC", BC_PARAMETERS_FOR_NOT_PERIODIC)
+                            content = content.replace("SECTION_BC_CH", 
+                                                      BC_PARAMETERS_FOR_NOT_PERIODIC_CH)
                 with open(filepath, "w") as f:
                     f.write(content)
                 print(f"Updated parameters in file: {filepath}")

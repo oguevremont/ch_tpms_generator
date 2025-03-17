@@ -21,7 +21,7 @@ PARAM_SETS_CAHN_HILLIARD = {
     "SEED"               : [9.0],
     "SOLIDITY"           : [0.50],
     "TIME_END"           : [1.6e-5],
-    "CH_BC"              : ["noflux", "none"]
+    "CH_BC"              : ["noflux", "periodic"]
     # The none boundary condition corresponds to a Periodic BC.
     # (The NS periodic BC takes over)
 }
