@@ -4,7 +4,14 @@ def run(params):
     # Call cesogen
     print("Generate Cesogen")
 
-    command_line_str = "./executables_and_scripts/cesogen -s 0.02 box scale 0.5,0.5,0.5 TYPE_FILLING scale SCALING,SCALING,SCALING intersection -o generated.stl"
+    running_on_mac = True
+
+    finesse = 0.01
+
+    if running_on_mac:
+        command_line_str = f"docker run --rm -v $(pwd):/workspace -w /workspace ubuntu ./executables_and_scripts/cesogen -s {finesse} box scale 0.5,0.5,0.5 TYPE_FILLING scale SCALING,SCALING,SCALING intersection -o generated.stl"
+    else:
+        command_line_str = f"./executables_and_scripts/cesogen -s {finesse} box scale 0.5,0.5,0.5 TYPE_FILLING scale SCALING,SCALING,SCALING intersection -o generated.stl"
 
     for key, value in params.items():
         # key is the placeholder name (e.g., "PARAM1"), value is the actual parameter value (e.g., "10")

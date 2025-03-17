@@ -1,6 +1,5 @@
 # Generated with help from ChatGPT
 
-# TODO: Write a file that can do generate_cesogen(dict parameters) or generate_cahn_hilliard(dict parameters)
 from enum import Enum, auto
 import pandas as pd
 import os
