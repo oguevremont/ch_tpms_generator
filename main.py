@@ -10,13 +10,13 @@ import cfd_using_lethe
 import postprocess_cfd_results
 
 # 1. 
-create_xlsx_from_parameters_sets.run()
+#create_xlsx_from_parameters_sets.run()
 # 2. 
-generation_from_xlsx.run()
+#generation_from_xlsx.run()
 # 3. 
 #postprocess_generated_media.run()
 # 4. 
-#stl_to_rbf.run()
+stl_to_rbf.run()
 # 5. 
 #cfd_using_lethe.run()
 # 6.

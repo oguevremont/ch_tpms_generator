@@ -12,7 +12,7 @@ subsection simulation control
   set output path       = ./output/
   set output name       = output
   set output control    = iteration
-  set output frequency  = 10
+  set output frequency  = 40
   set group files       = 1
 end
 
@@ -36,7 +36,7 @@ end
 subsection initial conditions
   set type = nodal
   subsection uvwp
-    set Function expression = 0.1;0;0;0
+    set Function expression = SET_VELOCITY;0;0;0
   end
 end
 
@@ -53,7 +53,7 @@ subsection boundary conditions
     set id   = 0
     set type = function
     subsection u
-      set Function expression = 0.1
+      set Function expression = SET_VELOCITY
     end
   end
   subsection bc 1

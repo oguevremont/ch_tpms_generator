@@ -40,31 +40,46 @@ def run_lethe(rbf_file):
     # Get the absolute path for the Lethe parameter file
     abs_lethe_param = os.path.abspath(lethe_prm)
 
-    # Get the absolute path for the monolith.composite
-    composite_file_source = os.path.join(templates_path, "monolith.composite")
-    abs_composite_file_source = os.path.abspath(composite_file_source)
+    # Get the absolute path for the templates folder
+    abs_templates_path = os.path.abspath(templates_path)
 
     try:
-        # Verify that the source monolith.composite file exists
-        if not os.path.exists(abs_composite_file_source):
-            raise FileNotFoundError(f"'monolith.composite' not found at {abs_composite_file_source}")
+        # Verify that the templates directory exists
+        if not os.path.exists(abs_templates_path):
+            raise FileNotFoundError(f"Templates directory not found: {abs_templates_path}")
 
         # Change to the directory of the RBF file
         os.chdir(rbf_dir)
 
-        # Copy the monolith.composite file to the current directory
-        current_dir = os.getcwd()
-        composite_file_destination = os.path.join(current_dir, "monolith.composite")
-        shutil.copy(abs_composite_file_source, ".")
-        print(f"Copied 'monolith.composite' to {composite_file_destination}")
+        # Copy all files from the templates directory to the current directory
+        for file_name in os.listdir(abs_templates_path):
+            file_source = os.path.join(abs_templates_path, file_name)
+            file_destination = os.path.join(rbf_dir, file_name)
+            if os.path.isfile(file_source):  # Only copy files, not directories
+                shutil.copy(file_source, file_destination)
+                print(f"Copied '{file_name}' to {file_destination}")
 
-        # Replace the string "RBF_NAME" with the actual RBF name in the monolith.composite file
-        with open(composite_file_destination, "r") as file:
-            composite_content = file.read()
-        composite_content = composite_content.replace("RBF_NAME", rbf_name)
-        with open(composite_file_destination, "w") as file:
-            file.write(composite_content)
-        print(f"Replaced 'RBF_NAME' with '{rbf_name}' in monolith.composite.")
+        MASS_FLOW_RATE = 0.1 #g/s
+        set_velocity   = MASS_FLOW_RATE/1/(1.2**2)   # =mass/density/surface_area
+        replacement_dict = {
+                            "RBF_NAME"      : rbf_name,
+                            "SET_VELOCITY": set_velocity
+                            }
+
+        # Replace all keys in replacement_dict with their values in copied files
+        for file_name in os.listdir(rbf_dir):
+            file_path = os.path.join(rbf_dir, file_name)
+            if os.path.isfile(file_path):
+                with open(file_path, "r") as file:
+                    content = file.read()
+                
+                # Replace each key in the file
+                for key, value in replacement_dict.items():
+                    content = content.replace(key, value)
+                
+                with open(file_path, "w") as file:
+                    file.write(content)
+                print(f"Updated placeholders in '{file_name}'.")
 
         # Prepare and execute the command
         command = f"mpirun -np 8 {absolute_lethe_path} {abs_lethe_param}"
@@ -77,9 +92,6 @@ def run_lethe(rbf_file):
     finally:
         # Change back to the original directory
         os.chdir(original_dir)
-
-
-
 
 def run():
     base_dir = "generated_media"

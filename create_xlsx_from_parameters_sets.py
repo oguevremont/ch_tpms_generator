@@ -89,10 +89,10 @@ def run():
 
     # Uncomment one of the following calls:
     # For Cesogen:
-    main(0, output_file)
+    #main(0, output_file)
     
     # For Cahn-Hilliard:
-    #main(1, output_file)
+    main(1, output_file)
 
 if __name__ == "__main__":
     run()

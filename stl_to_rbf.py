@@ -44,6 +44,7 @@ def generate_rbf_from_stl(stl_file):
 
         # Prepare the command to execute using absolute paths
         command = f"{absolute_executable_path} {stl_name} ./ {absolute_prm_path} none"
+        command = f"{absolute_executable_path} ./ {stl_name} {absolute_prm_path}"
 
         # Run the command
         print(f"Running command: {command}")
