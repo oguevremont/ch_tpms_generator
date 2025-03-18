@@ -5,3 +5,5 @@ generated_media_bk/
 __pycache__/
 *.csv
 *.xlsx
+*.DS_Store
+
