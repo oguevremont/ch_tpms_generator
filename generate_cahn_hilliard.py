@@ -6,7 +6,7 @@ import create_xlsx_from_parameters_sets
 
 run_lethe                    = True
 run_paraview                 = True
-keep_working_dir_contents    = True
+keep_working_dir_contents    = False
 remove_working_directory     = False
 n_cores                      = 4
 
@@ -117,6 +117,20 @@ BC_PARAMETERS_FOR_NOT_PERIODIC_CH = """\
       end
   end
 """
+
+# File copy extension filter
+ALLOWED_EXTENSIONS = {".prm", ".param", ".stl", ".composite"}
+
+def copy_selected_files(src_directory, dest_directory):
+    """
+    Copy all files with specific extensions from src_directory to dest_directory.
+    """
+    os.makedirs(dest_directory, exist_ok=True)
+    for item in os.listdir(src_directory):
+        src_item = os.path.join(src_directory, item)
+        if os.path.isfile(src_item) and any(item.lower().endswith(ext) for ext in ALLOWED_EXTENSIONS):
+            shutil.copy2(src_item, dest_directory)
+            print(f"Copied {src_item} to {dest_directory}")
 
 def copy_all_files(src_directory, dest_directory):
     """
@@ -267,13 +281,8 @@ def run(param_original):
                 shutil.copy2(src_path, destination_dir)
             print(f"Copied '{src_path}' to '{dst_path}'")
     else: 
-        # Copy only .stl files from the working directory
-        for item in os.listdir(working_directory_absolute_path):
-            if item.lower().endswith(".stl"):
-                src_path = os.path.join(working_directory, item)
-                dst_path = os.path.join(destination_dir, item)
-                shutil.copy2(src_path, dst_path)
-                print(f"Copied '{src_path}' to '{dst_path}'")
+        ## Change the parts from here
+        copy_selected_files(working_directory_absolute_path, destination_dir)
     # Delete the working directory and all its contents
     if remove_working_directory:
         shutil.rmtree(working_directory_absolute_path)

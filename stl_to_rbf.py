@@ -11,8 +11,6 @@ bitpit_prm_template          = "levelsetRBF_prototype.param"
 
 PATH = os.getcwd()
 
-import os
-
 def discover_stl_files(base_dir):
     if not os.path.exists(base_dir):
         print(f"Directory '{base_dir}' does not exist.")
@@ -44,7 +42,6 @@ def generate_rbf_from_stl(stl_file):
 
         # Prepare the command to execute using absolute paths
         command = f"{absolute_executable_path} {stl_name} ./ {absolute_prm_path} none"
-        command = f"{absolute_executable_path} ./ {stl_name} {absolute_prm_path}"
 
         # Run the command
         print(f"Running command: {command}")
@@ -57,15 +54,12 @@ def generate_rbf_from_stl(stl_file):
         # Change back to the original directory
         os.chdir(original_dir)
 
- 
-
-def repair_stl(stl_path, output_path):
+def repair_stl(stl_path):
     """
     Automatically repairs an STL file by removing degenerate triangles and filling holes.
     
     Args:
         stl_path (str): Path to the input STL file.
-        output_path (str): Path to save the repaired STL file.
     """
     try:
         # Load the STL file
@@ -85,14 +79,11 @@ def repair_stl(stl_path, output_path):
             if not mesh.is_watertight:
                 mesh.fill_holes()
 
-
-        # Save the repaired mesh
-        mesh.export(output_path)
-        print(f"Repaired STL saved to {output_path}")
+        # Save the repaired mesh under the same filename
+        mesh.export(stl_path)
+        print(f"Repaired STL saved to {stl_path}")
     except Exception as e:
         print(f"Error repairing STL: {e}")
-
-
 
 def run():
     """
@@ -108,17 +99,11 @@ def run():
         for stl_file in stl_files:
             print(f"Processing {stl_file}...")
 
-            # Create a path for the repaired STL file
-            stl_dir = os.path.dirname(stl_file)
-            stl_name = os.path.basename(stl_file)
-            stl_name_repaired = stl_name.replace(".stl", "_repaired.stl")
-            stl_file_repaired = os.path.join(stl_dir, stl_name_repaired)
-
             # Repair the STL file
-            repair_stl(stl_file, stl_file_repaired)
+            repair_stl(stl_file)
 
             # Generate the RBF file from the repaired STL
-            generate_rbf_from_stl(stl_file_repaired)
+            generate_rbf_from_stl(stl_file)
 
     print("All files processed.")
     return 1
