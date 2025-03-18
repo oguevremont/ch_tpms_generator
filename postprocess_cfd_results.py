@@ -2,7 +2,7 @@ import os
 import csv
 import analyze_cfd_results
 
-def process_pressure_drops():
+def process_pressure_drops(job_id=None):
     base_dir = "generated_media"
     csv_filename = "processed_pressure_drops_database.csv"
     data_filename = 'pressure_drop.dat'
@@ -22,29 +22,30 @@ def process_pressure_drops():
         # Get the full path of the subfolder
         subfolder_path = os.path.join(base_dir, folder_name)
 
-        # Search recursively for 'pressure_drop.dat' within the subfolder
-        data_file = None
-        for root, _, files in os.walk(subfolder_path):
-            if data_filename in files:
-                data_file = os.path.join(root, data_filename)
-                break
+        if job_id == None or job_id == folder_name:
+            # Search recursively for 'pressure_drop.dat' within the subfolder
+            data_file = None
+            for root, _, files in os.walk(subfolder_path):
+                if data_filename in files:
+                    data_file = os.path.join(root, data_filename)
+                    break
 
-        if data_file and os.path.exists(data_file):
-            print(f"Processing {data_file}...")
+            if data_file and os.path.exists(data_file):
+                print(f"Processing {data_file}...")
 
-            try:
-                # Run the analysis and get the results as a dictionary
-                result_dict = analyze_cfd_results.extract_pressure_drop(data_file)
+                try:
+                    # Run the analysis and get the results as a dictionary
+                    result_dict = analyze_cfd_results.extract_pressure_drop(data_file)
 
-                # Add the results to the CSV database
-                add_dict_to_csv(result_dict, csv_filename, key_name=folder_name)
+                    # Add the results to the CSV database
+                    add_dict_to_csv(result_dict, csv_filename, key_name=folder_name)
 
-                print(f"Processed and added results for {folder_name}.")
+                    print(f"Processed and added results for {folder_name}.")
 
-            except Exception as e:
-                print(f"Error processing '{data_file}': {e}")
-        else:
-            print(f"No {data_filename} found in {folder_name}, skipping...")
+                except Exception as e:
+                    print(f"Error processing '{data_file}': {e}")
+            else:
+                print(f"No {data_filename} found in {folder_name}, skipping...")
 
 
 def add_dict_to_csv(data_dict, csv_filename, key_name):
@@ -73,8 +74,8 @@ def add_dict_to_csv(data_dict, csv_filename, key_name):
         # Write the current dictionary entry
         writer.writerow(entry_dict)
 
-def run():
-    process_pressure_drops()
+def run(job_id = None):
+    process_pressure_drops(job_id)
     return 1
 
 if __name__ == "__main__":

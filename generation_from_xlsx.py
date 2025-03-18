@@ -57,14 +57,14 @@ class TypeMedium(Enum):
     Cesogen      = auto()
     CahnHilliard = auto()
 
-def generate(id, type: TypeMedium, params: dict):
+def generate(id, type: TypeMedium, params: dict, working_directory):
     if not isinstance(type, TypeMedium):
         raise ValueError(f"Expected an instance of TypeMedium Enum, got {type(type)} instead.")
     
     if type == TypeMedium.Cesogen:
         generate_cesogen.run(params)
     elif type == TypeMedium.CahnHilliard:
-        generate_cahn_hilliard.run(params)
+        generate_cahn_hilliard.run(params, working_directory)
 
     # Create (or reuse) the directory 'generated_media/<id>/'
     output_dir = os.path.join("generated_media", str(id))
@@ -79,8 +79,8 @@ def generate(id, type: TypeMedium, params: dict):
     else:
         print(f"No file '{file_path}' found to move.")
 
-def run():
-    list_of_cases = read_excel_file("./to_generate.xlsx")
+def run(excel_file_name="to_generate.xlsx",job_id=None):
+    list_of_cases = read_excel_file(excel_file_name)
     for index, list_of_params_for_case in enumerate(list_of_cases):
         id       = list_of_params_for_case[0]
         type_str = list_of_params_for_case[1]
@@ -89,6 +89,11 @@ def run():
             type_case = TypeMedium.Cesogen
         elif type_str == "cahnhilliard": 
             type_case = TypeMedium.CahnHilliard
-        print(id)
-        generate(id, type_case, params)
+
+        if job_id == None or job_id == id: # Depending if a job_id has been specified
+            print(f"ID:{id}")
+            working_dir = "working_directory"
+            if job_id != None:
+                working_dir = working_dir + "_" +id
+            generate(job_id, type_case, params,working_dir)
 

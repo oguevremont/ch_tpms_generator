@@ -2,7 +2,7 @@ import os
 import csv
 import analyze_porous_media
 
-def main():
+def main(job_id=None):
     base_dir = "generated_media"
     csv_filename = "processed_porous_media_database.csv"
 
@@ -18,24 +18,26 @@ def main():
 
     for folder_name in subfolders:
         # Construct the path to generated.stl for this subfolder
-        stl_path = os.path.join(base_dir, folder_name, "generated.stl")
+        if job_id == None or job_id == folder_name:
+            print(f"Folder name is {folder_name}")
+            stl_path = os.path.join(base_dir, folder_name, "generated.stl")
 
-        if os.path.exists(stl_path):
-            print(f"Processing {stl_path}...")
+            if os.path.exists(stl_path):
+                print(f"Processing {stl_path}...")
 
-            try:
-                # Run the analysis and get the results as a dictionary
-                result_dict = analyze_porous_media.run(stl_path)
+                try:
+                    # Run the analysis and get the results as a dictionary
+                    result_dict = analyze_porous_media.run(stl_path)
 
-                # Add the results to the CSV database
-                add_dict_to_csv(result_dict, csv_filename, key_name=folder_name)
+                    # Add the results to the CSV database
+                    add_dict_to_csv(result_dict, csv_filename, key_name=folder_name)
 
-                print(f"Processed and added results for {folder_name}.")
+                    print(f"Processed and added results for {folder_name}.")
 
-            except Exception as e:
-                print(f"Error processing '{stl_path}': {e}")
-        else:
-            print(f"No generated.stl found in {folder_name}, skipping...")
+                except Exception as e:
+                    print(f"Error processing '{stl_path}': {e}")
+            else:
+                print(f"No generated.stl found in {folder_name}, skipping...")
 
 def add_dict_to_csv(data_dict, csv_filename, key_name):
     """
@@ -63,9 +65,8 @@ def add_dict_to_csv(data_dict, csv_filename, key_name):
         # Write the current dictionary entry
         writer.writerow(entry_dict)
 
-def run():
-    main()
-    os.remove("binary_image.vtk")
+def run(job_id=None):
+    main(job_id)
     return 1
 
 if __name__ == "__main__":

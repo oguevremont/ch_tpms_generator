@@ -1,5 +1,7 @@
+working_directory*
 working_directory_ch/
 executables_and_scripts/
+generated_jobs/
 generated_media/
 generated_media_bk/
 __pycache__/

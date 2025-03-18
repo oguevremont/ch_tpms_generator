@@ -7,14 +7,13 @@ import create_xlsx_from_parameters_sets
 run_lethe                    = True
 run_paraview                 = True
 keep_working_dir_contents    = False
-remove_working_directory     = False
+remove_working_directory     = True
 n_cores                      = 4
 
 
 ############## File parameters ###################
 executables_path             = "./executables_and_scripts/"
 templates_path               = "./parameters_templates/"
-working_directory            = "working_directory_ch"
 
 executable_lethe                     = "lethe-fluid"
 executable_script_lethe_to_stl       = "ch_to_stl.py"
@@ -215,7 +214,7 @@ def run_paraview_func(executables_abs_path,param_original):
         print(command_line)
         os.system(command_line)
      
-def run(param_original):
+def run(param_original, working_directory):
     print("Generate Cahn-Hilliard")
     original_dir = os.getcwd()
     new_parameters = {

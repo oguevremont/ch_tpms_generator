@@ -11,7 +11,7 @@ bitpit_prm_template          = "levelsetRBF_prototype.param"
 
 PATH = os.getcwd()
 
-def discover_stl_files(base_dir):
+def discover_stl_files(base_dir,job_id = None):
     if not os.path.exists(base_dir):
         print(f"Directory '{base_dir}' does not exist.")
         return []
@@ -20,7 +20,10 @@ def discover_stl_files(base_dir):
     for root, _, files in os.walk(base_dir):
         for file in files:
             if file.endswith(".stl"):
-                stl_files.append(os.path.join(root, file))
+                file_path = os.path.join(root, file)
+                parent_folder = os.path.basename(root)  # Get direct parent folder name
+                if job_id == None or job_id == parent_folder:
+                    stl_files.append(file_path)
 
     return stl_files
 
@@ -85,12 +88,12 @@ def repair_stl(stl_path):
     except Exception as e:
         print(f"Error repairing STL: {e}")
 
-def run():
+def run(job_id=None):
     """
     Discover all .stl files, repair them, and generate RBF files.
     """
     base_dir = "generated_media"
-    stl_files = discover_stl_files(base_dir)
+    stl_files = discover_stl_files(base_dir,job_id=job_id)
 
     if not stl_files:
         print(f"No .stl files found in '{base_dir}'.")
