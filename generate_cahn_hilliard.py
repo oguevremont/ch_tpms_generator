@@ -189,11 +189,15 @@ def merge_parameters(original, appended):
             merged[key] = str(value)
     return merged
 
-def run_lethe_func(executables_abs_path):
+def run_lethe_func(executables_abs_path,running_on_cluster=False):
     if run_lethe:
         # Run Lethe Cahn-Hilliard simulation
-        first_line  = 'mpirun -np ' +str(n_cores)+' '+executables_abs_path+'/'+executable_lethe+' '+ template_cahn_hilliard_prm
-        second_line = 'mpirun -np ' +str(n_cores)+' '+executables_abs_path+'/'+executable_lethe+' '+ template_cahn_hilliard_prm_restart
+        if running_on_cluster:
+          first_line  = 'srun '+executables_abs_path+'/'+executable_lethe+' '+ template_cahn_hilliard_prm
+          second_line = 'srun '+executables_abs_path+'/'+executable_lethe+' '+ template_cahn_hilliard_prm_restart
+        else:
+          first_line  = 'mpirun -np ' +str(n_cores)+' '+executables_abs_path+'/'+executable_lethe+' '+ template_cahn_hilliard_prm
+          second_line = 'mpirun -np ' +str(n_cores)+' '+executables_abs_path+'/'+executable_lethe+' '+ template_cahn_hilliard_prm_restart
         print(first_line)
         print(second_line)
 
@@ -214,7 +218,7 @@ def run_paraview_func(executables_abs_path,param_original):
         print(command_line)
         os.system(command_line)
      
-def run(param_original, working_directory):
+def run(param_original, working_directory,running_on_cluster=False):
     print("Generate Cahn-Hilliard")
     original_dir = os.getcwd()
     new_parameters = {
@@ -245,7 +249,7 @@ def run(param_original, working_directory):
 
 
     # 2. We run Lethe CH simulations
-    run_lethe_func(executable_absolute_path)
+    run_lethe_func(executable_absolute_path,running_on_cluster)
 
 
     # 3. We run Paraview

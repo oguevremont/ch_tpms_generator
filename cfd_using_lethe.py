@@ -99,7 +99,7 @@ def run_lethe(rbf_file,running_on_cluster):
 
         # Prepare and execute the command
         if running_on_cluster:
-            command = "srun $HOME/lethe/inst/bin/$lethe_application_name_wanted flow_around_rbf.prm"
+            command = f"srun {absolute_lethe_path} {lethe_prm}"
         else:
             command = f"mpirun -np 4 {absolute_lethe_path} {lethe_prm}"
         print(f"Running Lethe with command: {command}")

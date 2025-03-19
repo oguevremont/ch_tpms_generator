@@ -9,34 +9,34 @@ import os
 import subprocess
 
 parallel_workflow  = True  # Toggle between parallel and sequential execution
-running_on_cluster = False
+running_on_cluster = True
 
 EXCEL_FILE = "to_generate.xlsx"
 JOB_SCRIPT = "job.sh"
-OUTPUT_DIR = "generated_jobs"
+OUTPUT_DIR = "generated_media"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def create_job_script(job_id):
     """Generate a job script for the cluster."""
-    job_script_path = os.path.join(OUTPUT_DIR, f"job_{job_id}.sh")
-    
+    job_script_path = os.path.join(OUTPUT_DIR, f"{job_id}/job.sh")
+    os.makedirs(os.path.dirname(job_script_path), exist_ok=True)
+
     script_content = f"""#!/bin/bash
-#SBATCH --account=rrg-fede1988
+#SBATCH --account=def-fede1988
 #SBATCH --ntasks-per-node=40 #number of parallel tasks (as in mpirun -np X)
 #SBATCH --nodes=1 #number of whole nodes used (each with up to 40 tasks-per-node)
 #SBATCH --time=4:00:00 #maximum time for the simulation (hh:mm:ss)
 #SBATCH --job-name=case_{job_id}
+#SBATCH --mem=200G
 #SBATCH --mail-type=END #email preferences
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=guevremont.o@gmail.com
 
 source $HOME/.dealii
-srun $HOME/lethe/inst/bin/$lethe_application_name_wanted $parameter_file_name.prm
 
 module load python
 
-
-python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE}
+python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE} --running_on_cluster true
 python postprocess_generated_media.py --job_id {job_id} 
 python stl_to_rbf.py                  --job_id {job_id} 
 python cfd_using_lethe.py             --job_id {job_id} --running_on_cluster=True
