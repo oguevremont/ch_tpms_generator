@@ -13,8 +13,11 @@ PARAM_SETS_CESOGEN = {
     # TODO Later take care of boolean operation
 
     "TYPE_FILLING": ["gyroid"],
-    "SCALING": [0.5],
-    "THICKNESS": ["dilate_0.05", "erode_0.20"],
+    "SCALING_X": [0.2, 0.4, 0.6, 0.8],
+    "SCALING_Y": [0.2, 0.4, 0.6, 0.8],
+    "SCALING_Z": [0.2, 0.4, 0.6, 0.8],
+    #"THICKNESS": [-0.20, -0.10, 0, 0.10, 0.20],
+    "THICKNESS": [0],
 }
 
 PARAM_SETS_CAHN_HILLIARD = {
@@ -89,11 +92,21 @@ def run(excel_file_name="to_generate.xlsx"):
     Run the Excel file generation with a specified output file name.
     Default: "to_generate.xlsx"
     """
-    # For Cesogen:
-    #main(0, excel_file_name)
+    try:
+        os.remove(excel_file_name)
+        print(f"File '{excel_file_name}' has been deleted successfully.")
+    except FileNotFoundError:
+        print(f"File '{excel_file_name}' not found.")
+    except PermissionError:
+        print(f"Permission denied: Unable to delete '{excel_file_name}'.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
     # For Cahn-Hilliard:
-    main(1, excel_file_name)
+    #main(1, excel_file_name)
+
+    # For Cesogen:
+    main(0, excel_file_name)
 
 if __name__ == "__main__":
     run()

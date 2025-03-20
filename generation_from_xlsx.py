@@ -37,7 +37,6 @@ def read_excel_file(file_path):
         param_dict = lists_to_dict(param_names, param_values)
         # Append to the result
         result.append([str(id_value), str(type_value), param_dict])
-    print(result)
     return result
 
 def lists_to_dict(list_names, list_values):

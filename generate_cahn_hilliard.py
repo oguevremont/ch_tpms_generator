@@ -8,7 +8,7 @@ run_lethe                    = True
 run_paraview                 = True
 keep_working_dir_contents    = False
 remove_working_directory     = True
-n_cores                      = 4
+n_cores                      = 6
 
 
 ############## File parameters ###################
