@@ -32,8 +32,11 @@ def create_job_script(job_id):
 #SBATCH --mail-user=guevremont.o@gmail.com
 
 module load python/3.11.5
-source $HOME/ENVGEN_POREUX/bin/activate
+virtualenv --no-download $SLURM_TMPDIR/env
+source $SLURM_TMPDIR/env/bin/activate
+pip install --no-index --upgrade pip
 
+pip install --no-index -r $HOME/requirements.txt
 source $HOME/.dealii
 
 python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE} --running_on_cluster true
