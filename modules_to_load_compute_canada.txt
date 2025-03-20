@@ -1,0 +1,26 @@
+cd $HOME
+source $HOME/.dealii
+
+module load CCEnv #if on Niagara
+module load StdEnv/2020
+module load python/3.11.5
+module load scipy-stack/2023b
+rm -rf ENVGEN_POREUX
+virtualenv --no-download ENVGEN_POREUX
+source ENVGEN_POREUX/bin/activate
+pip install --no-index --upgrade pip
+pip install jinja2
+pip install matplotlib
+pip install numpy
+pip install pandas
+pip install /home/b/blaisbru/olguea/porespy
+pip install pyvista
+pip install tqdm
+pip install scikit-learn
+pip install scipy
+pip install scikit-image
+pip install trimesh
+pip freeze --local > requirements.txt
+deactivate
+
+

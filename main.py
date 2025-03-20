@@ -31,9 +31,10 @@ def create_job_script(job_id):
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=guevremont.o@gmail.com
 
-source $HOME/.dealii
+module load python/3.11.5
+source ENVGEN_POREUX/bin/activate
 
-module load python
+source $HOME/.dealii
 
 python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE} --running_on_cluster true
 python postprocess_generated_media.py --job_id {job_id} 
@@ -41,6 +42,7 @@ python stl_to_rbf.py                  --job_id {job_id}
 python cfd_using_lethe.py             --job_id {job_id} --running_on_cluster=True
 python postprocess_cfd_results.py     --job_id {job_id} 
 
+deactivate
 """
     
     with open(job_script_path, "w") as f:
@@ -59,7 +61,7 @@ def submit_jobs(running_on_cluster):
         if running_on_cluster:
             job_script = create_job_script(id)
             # I comment this line for now.
-            # subprocess.run(["sbatch", job_script])
+            subprocess.run(["sbatch", job_script])
         else:
             # 2. Generate media from the Excel file
             generation_from_xlsx.run(excel_file_name=EXCEL_FILE, job_id=id)
@@ -68,9 +70,9 @@ def submit_jobs(running_on_cluster):
             # 4. Convert STL files to RBF format
             stl_to_rbf.run(job_id=id)
             # 5. Run CFD simulations using Lethe
-            #cfd_using_lethe.run(job_id=id,running_on_cluster=running_on_cluster)
+            cfd_using_lethe.run(job_id=id,running_on_cluster=running_on_cluster)
             # 6. Post-process CFD results
-            #postprocess_cfd_results.run(job_id=id)
+            postprocess_cfd_results.run(job_id=id)
 
         print(f"Submitted job {id}.")
 
@@ -88,13 +90,13 @@ def main():
         # 2. Generate media from the Excel file
         generation_from_xlsx.run(excel_file_name=EXCEL_FILE)
         # 3. Post-process generated media
-        postprocess_generated_media.run()
+        #postprocess_generated_media.run()
         # 4. Convert STL files to RBF format
         stl_to_rbf.run()
         # 5. Run CFD simulations using Lethe
-        cfd_using_lethe.run()
+        #cfd_using_lethe.run()
         # 6. Post-process CFD results
-        postprocess_cfd_results.run()
+        #postprocess_cfd_results.run()
 
 if __name__ == "__main__":
     main()
