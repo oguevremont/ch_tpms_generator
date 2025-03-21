@@ -64,8 +64,10 @@ def generate(id, type: TypeMedium, params: dict, working_directory,running_on_cl
     if not isinstance(type, TypeMedium):
         raise ValueError(f"Expected an instance of TypeMedium Enum, got {type(type)} instead.")
     
+
+    file_path = f"./generated_{str(id)}.stl"
     if type == TypeMedium.Cesogen:
-        generate_cesogen.run(params)
+        generate_cesogen.run(params, file_path)
     elif type == TypeMedium.CahnHilliard:
         generate_cahn_hilliard.run(params, working_directory,running_on_cluster)
 
@@ -74,9 +76,9 @@ def generate(id, type: TypeMedium, params: dict, working_directory,running_on_cl
     os.makedirs(output_dir, exist_ok=True)
 
     # Example: Move a specific file (generated.stl) into the output directory
-    file_path = "./generated.stl"
+    new_file_path = "./generated.stl"
     if os.path.exists(file_path):
-        destination = os.path.join(output_dir, os.path.basename(file_path))
+        destination = os.path.join(output_dir, os.path.basename(new_file_path))
         shutil.move(file_path, destination)
         print(f"Moved '{file_path}' to '{destination}'")
     else:
