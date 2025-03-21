@@ -4,6 +4,7 @@ from enum import Enum, auto
 import pandas as pd
 import os
 import shutil
+import argparse
 
 import generate_cesogen
 import generate_cahn_hilliard
@@ -97,3 +98,12 @@ def run(excel_file_name="to_generate.xlsx",job_id=None):
                 working_dir = working_dir + "_" +id
             generate(job_id, type_case, params,working_dir)
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run porous media generation job.")
+    parser.add_argument("--excel_file_name", type=str, default="to_generate.xlsx",
+                        help="Name of the Excel file to read job information from.")
+    parser.add_argument("--job_id", type=int, default=None,
+                        help="Job ID corresponding to the row in the Excel file.")
+
+    args = parser.parse_args()
+    run(excel_file_name=args.excel_file_name, job_id=args.job_id)
