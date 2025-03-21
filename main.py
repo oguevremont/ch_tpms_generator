@@ -38,6 +38,10 @@ module load vtk/9.3.0
 module load python/3.11.5
 module load scipy-stack/2023b
 
+export MPLCONFIGDIR=$SLURM_TMPDIR/mpl_config
+export XDG_CACHE_HOME=$SLURM_TMPDIR/xdg_cache
+mkdir -p $MPLCONFIGDIR $XDG_CACHE_HOME
+
 source ENVGEN_POREUX/bin/activate
 
 python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE} --running_on_cluster true

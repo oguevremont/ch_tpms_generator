@@ -15,6 +15,10 @@ module load vtk/9.3.0
 module load python/3.11.5
 module load scipy-stack/2023b
 
+export MPLCONFIGDIR=$SLURM_TMPDIR/mpl_config
+export XDG_CACHE_HOME=$SLURM_TMPDIR/xdg_cache
+mkdir -p $MPLCONFIGDIR $XDG_CACHE_HOME
+
 source ENVGEN_POREUX/bin/activate
 
 python main.py
