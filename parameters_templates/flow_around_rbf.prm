@@ -11,8 +11,8 @@ subsection simulation control
   set number mesh adapt = 0
   set output path       = ./output/
   set output name       = output
-  set output control    = iteration
-  set output frequency  = 40
+  set output control    = time
+  set output times      = 40e-4
   set group files       = 1
 end
 
