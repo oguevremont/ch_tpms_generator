@@ -9,6 +9,9 @@ import argparse
 import generate_cesogen
 import generate_cahn_hilliard
 
+def str2bool(v):
+    return str(v).lower() in ('yes', 'true', 't', '1')
+
 def read_excel_file(file_path):
     # Read the Excel file
     df = pd.read_excel(file_path)

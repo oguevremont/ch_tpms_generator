@@ -1,6 +1,7 @@
 import os
 import csv
 import analyze_porous_media
+import argparse
 
 def main(job_id=None):
     base_dir = "generated_media"
@@ -70,4 +71,8 @@ def run(job_id=None):
     return 1
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description="Post-process generated porous media.")
+    parser.add_argument("--job_id", type=int, required=True, help="Job ID to process.")
+
+    args = parser.parse_args()
+    run(job_id=args.job_id)

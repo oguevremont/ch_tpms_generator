@@ -1,6 +1,7 @@
 import os
 import csv
 import analyze_cfd_results
+import argparse
 
 def process_pressure_drops(job_id=None):
     base_dir = "generated_media"
@@ -79,4 +80,8 @@ def run(job_id = None):
     return 1
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description="Post-process CFD simulation results.")
+    parser.add_argument("--job_id", type=int, required=True, help="Job ID to process.")
+
+    args = parser.parse_args()
+    run(job_id=args.job_id)

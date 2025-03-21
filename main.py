@@ -43,7 +43,7 @@ source ENVGEN_POREUX/bin/activate
 python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE} --running_on_cluster true
 python postprocess_generated_media.py --job_id {job_id} 
 python stl_to_rbf.py                  --job_id {job_id} 
-python cfd_using_lethe.py             --job_id {job_id} --running_on_cluster=True
+python cfd_using_lethe.py             --job_id {job_id} --running_on_cluster=true
 python postprocess_cfd_results.py     --job_id {job_id} 
 
 deactivate

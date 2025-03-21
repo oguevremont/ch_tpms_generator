@@ -3,6 +3,7 @@ import sys
 import jinja2
 import shutil
 import subprocess
+import argparse
 
 ################### Files and directories parameters ###################
 executables_path = "./executables_and_scripts/"
@@ -12,6 +13,9 @@ lethe_executable = "lethe-fluid-sharp"  # Lethe executable
 lethe_prm = "flow_around_rbf.prm"  
 
 PATH = os.getcwd()
+
+def str2bool(v):
+    return str(v).lower() in ('yes', 'true', 't', '1')
 
 def discover_rbf_files(base_dir, job_id=None):
     if not os.path.exists(base_dir):
@@ -129,4 +133,11 @@ def run(job_id=None,running_on_cluster=False):
     return 1
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description="Run CFD simulation using Lethe.")
+    parser.add_argument("--job_id", type=int, required=True, help="Job ID to process.")
+    parser.add_argument("--running_on_cluster", type=str2bool, default=False,
+                    help="Whether to run on a cluster (true/false).")
+
+    args = parser.parse_args()
+    run(job_id=args.job_id, running_on_cluster=args.running_on_cluster)
+

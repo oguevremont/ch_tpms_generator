@@ -2,6 +2,7 @@ import os
 import sys
 import jinja2
 import trimesh
+import argparse
 
 ################### Files and directories parameters ###################
 executables_path             = "./executables_and_scripts/"
@@ -112,4 +113,8 @@ def run(job_id=None):
     return 1
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description="Convert STL mesh to RBF representation.")
+    parser.add_argument("--job_id", type=int, required=True, help="Job ID to process.")
+
+    args = parser.parse_args()
+    run(job_id=args.job_id)
