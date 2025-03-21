@@ -99,7 +99,7 @@ def run(excel_file_name="to_generate.xlsx",job_id=None,running_on_cluster=False)
             working_dir = "working_directory"
             if job_id != None:
                 working_dir = working_dir + "_" +id
-            generate(job_id, type_case, params,working_dir,running_on_cluster)
+            generate(id, type_case, params,working_dir,running_on_cluster)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run porous media generation job.")
