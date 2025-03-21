@@ -17,6 +17,7 @@ git clone https://github.com/PMEAL/porespy
 virtualenv --no-download ENVGEN_POREUX
 source ENVGEN_POREUX/bin/activate
 pip install --no-index --upgrade pip
+pip install openpyxl
 pip install jinja2
 pip install matplotlib
 pip install numpy

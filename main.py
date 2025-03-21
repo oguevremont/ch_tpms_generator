@@ -9,7 +9,7 @@ import os
 import subprocess
 
 parallel_workflow  = True  # Toggle between parallel and sequential execution
-running_on_cluster = False
+running_on_cluster = True
 
 EXCEL_FILE = "to_generate.xlsx"
 JOB_SCRIPT = "job.sh"

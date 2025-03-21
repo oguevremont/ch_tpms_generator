@@ -79,6 +79,7 @@ def generate(id, type: TypeMedium, params: dict, working_directory):
         print(f"No file '{file_path}' found to move.")
 
 def run(excel_file_name="to_generate.xlsx",job_id=None):
+    print("We are in generation_from_xlsx.run()")
     list_of_cases = read_excel_file(excel_file_name)
     for index, list_of_params_for_case in enumerate(list_of_cases):
         id       = list_of_params_for_case[0]
