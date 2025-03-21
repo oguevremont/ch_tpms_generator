@@ -1,11 +1,19 @@
-cd $HOME
+cd $SCRATCH/ch_tpms_generator
+
 source $HOME/.dealii
 
 module load CCEnv #if on Niagara
-module load StdEnv/2020
+module load StdEnv/2023
+module load vtk/9.3.0
 module load python/3.11.5
 module load scipy-stack/2023b
 rm -rf ENVGEN_POREUX
+
+rm -rf pyvista
+rm -rf porespy
+git clone https://github.com/pyvista/pyvista
+git clone https://github.com/PMEAL/porespy
+
 virtualenv --no-download ENVGEN_POREUX
 source ENVGEN_POREUX/bin/activate
 pip install --no-index --upgrade pip
@@ -13,8 +21,8 @@ pip install jinja2
 pip install matplotlib
 pip install numpy
 pip install pandas
-pip install /home/b/blaisbru/olguea/porespy
-pip install pyvista
+pip install ./porespy
+pip install ./pyvista
 pip install tqdm
 pip install scikit-learn
 pip install scipy
