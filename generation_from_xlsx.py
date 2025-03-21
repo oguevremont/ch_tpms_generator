@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import shutil
 import argparse
+import random
 
 import generate_cesogen
 import generate_cahn_hilliard
@@ -63,26 +64,25 @@ class TypeMedium(Enum):
 def generate(id, type: TypeMedium, params: dict, working_directory,running_on_cluster=False):
     if not isinstance(type, TypeMedium):
         raise ValueError(f"Expected an instance of TypeMedium Enum, got {type(type)} instead.")
-    
 
-    file_path = f"./generated_{str(id)}.stl"
+    file_path = f"generated_{str(random.randint(0,1e16))}.stl"
     if type == TypeMedium.Cesogen:
         generate_cesogen.run(params, file_path)
+        # Example: Move a specific file (generated.stl) into the output directory
+        if os.path.exists(file_path):
+            # Create (or reuse) the directory 'generated_media/<id>/'
+            output_dir = os.path.join("generated_media", str(id))
+            os.makedirs(output_dir, exist_ok=True)
+            destination = os.path.join(output_dir, os.path.basename("generated.stl"))
+            shutil.move(file_path, destination)
+            print(f"Moved '{file_path}' to '{destination}'")
+        else:
+            print(f"No file '{file_path}' found to move.")
     elif type == TypeMedium.CahnHilliard:
         generate_cahn_hilliard.run(params, working_directory,running_on_cluster)
 
-    # Create (or reuse) the directory 'generated_media/<id>/'
-    output_dir = os.path.join("generated_media", str(id))
-    os.makedirs(output_dir, exist_ok=True)
 
-    # Example: Move a specific file (generated.stl) into the output directory
-    new_file_path = "./generated.stl"
-    if os.path.exists(file_path):
-        destination = os.path.join(output_dir, os.path.basename(new_file_path))
-        shutil.move(file_path, destination)
-        print(f"Moved '{file_path}' to '{destination}'")
-    else:
-        print(f"No file '{file_path}' found to move.")
+    
 
 def run(excel_file_name="to_generate.xlsx",job_id=None,running_on_cluster=False):
     print("We are in generation_from_xlsx.run()")
