@@ -60,14 +60,14 @@ class TypeMedium(Enum):
     Cesogen      = auto()
     CahnHilliard = auto()
 
-def generate(id, type: TypeMedium, params: dict, working_directory):
+def generate(id, type: TypeMedium, params: dict, working_directory,running_on_cluster=False):
     if not isinstance(type, TypeMedium):
         raise ValueError(f"Expected an instance of TypeMedium Enum, got {type(type)} instead.")
     
     if type == TypeMedium.Cesogen:
         generate_cesogen.run(params)
     elif type == TypeMedium.CahnHilliard:
-        generate_cahn_hilliard.run(params, working_directory)
+        generate_cahn_hilliard.run(params, working_directory,running_on_cluster)
 
     # Create (or reuse) the directory 'generated_media/<id>/'
     output_dir = os.path.join("generated_media", str(id))
@@ -82,7 +82,7 @@ def generate(id, type: TypeMedium, params: dict, working_directory):
     else:
         print(f"No file '{file_path}' found to move.")
 
-def run(excel_file_name="to_generate.xlsx",job_id=None):
+def run(excel_file_name="to_generate.xlsx",job_id=None,running_on_cluster=False):
     print("We are in generation_from_xlsx.run()")
     list_of_cases = read_excel_file(excel_file_name)
     for index, list_of_params_for_case in enumerate(list_of_cases):
@@ -99,7 +99,7 @@ def run(excel_file_name="to_generate.xlsx",job_id=None):
             working_dir = "working_directory"
             if job_id != None:
                 working_dir = working_dir + "_" +id
-            generate(job_id, type_case, params,working_dir)
+            generate(job_id, type_case, params,working_dir,running_on_cluster)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run porous media generation job.")
@@ -107,6 +107,8 @@ if __name__ == "__main__":
                         help="Name of the Excel file to read job information from.")
     parser.add_argument("--job_id", type=str, default=None,
                         help="Job ID corresponding to the row in the Excel file.")
+    parser.add_argument("--running_on_cluster", type=str2bool, default=False,
+                    help="Whether to run on a cluster (true/false).")
 
     args = parser.parse_args()
-    run(excel_file_name=args.excel_file_name, job_id=args.job_id)
+    run(excel_file_name=args.excel_file_name, job_id=args.job_id, running_on_cluster=args.running_on_cluster)
