@@ -2,7 +2,7 @@
 #SBATCH --account=rrg-fede1988
 #SBATCH --ntasks-per-node=1 #number of parallel tasks (as in mpirun -np X)
 #SBATCH --nodes=1 #number of whole nodes used (each with up to 40 tasks-per-node)
-#SBATCH --time=0:10:00 #maximum time for the simulation (hh:mm:ss)
+#SBATCH --time=0:15:00 #maximum time for the simulation (hh:mm:ss)
 #SBATCH --job-name=launch_all
 #SBATCH --mail-type=END #email preferences
 #SBATCH --mail-type=FAIL
