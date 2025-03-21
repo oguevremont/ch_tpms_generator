@@ -134,7 +134,7 @@ def run(job_id=None,running_on_cluster=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run CFD simulation using Lethe.")
-    parser.add_argument("--job_id", type=int, required=True, help="Job ID to process.")
+    parser.add_argument("--job_id", type=str, required=True, help="Job ID to process.")
     parser.add_argument("--running_on_cluster", type=str2bool, default=False,
                     help="Whether to run on a cluster (true/false).")
 

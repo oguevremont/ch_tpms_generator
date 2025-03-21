@@ -81,7 +81,7 @@ def run(job_id = None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Post-process CFD simulation results.")
-    parser.add_argument("--job_id", type=int, required=True, help="Job ID to process.")
+    parser.add_argument("--job_id", type=str, required=True, help="Job ID to process.")
 
     args = parser.parse_args()
     run(job_id=args.job_id)

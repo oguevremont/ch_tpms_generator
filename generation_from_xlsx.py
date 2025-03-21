@@ -105,7 +105,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run porous media generation job.")
     parser.add_argument("--excel_file_name", type=str, default="to_generate.xlsx",
                         help="Name of the Excel file to read job information from.")
-    parser.add_argument("--job_id", type=int, default=None,
+    parser.add_argument("--job_id", type=str, default=None,
                         help="Job ID corresponding to the row in the Excel file.")
 
     args = parser.parse_args()
