@@ -12,18 +12,18 @@ PARAM_SETS_CESOGEN = {
     #              "erode_0.05","erode_0.10","erode_0.15","erode_0.20"],
     # TODO Later take care of boolean operation
 
-    #"TYPE_FILLING": ["gyroid"],
-    #"SCALING_X": [0.2, 0.4, 0.6, 0.8],
-    #"SCALING_Y": [0.2, 0.4, 0.6, 0.8],
-    #"SCALING_Z": [0.2, 0.4, 0.6, 0.8],
-    #"THICKNESS": [-0.20, -0.10, 0, 0.10, 0.20],
+    "TYPE_FILLING": ["gyroid"],
+    "SCALING_X": [0.2, 0.4, 0.6, 0.8],
+    "SCALING_Y": [0.2, 0.4, 0.6, 0.8],
+    "SCALING_Z": [0.2, 0.4, 0.6, 0.8],
+    "THICKNESS": [-0.20, -0.10, 0, 0.10, 0.20],
     #"THICKNESS": [0],
     
-    "TYPE_FILLING": ["gyroid"],
-    "SCALING_X": [0.5],
-    "SCALING_Y": [0.5],
-    "SCALING_Z": [0.5],
-    "THICKNESS": [-0.2, -0.1, 0, 0.1, 0.2],
+    #"TYPE_FILLING": ["gyroid"],
+    #"SCALING_X": [0.5],
+    #"SCALING_Y": [0.5],
+    #"SCALING_Z": [0.5],
+    #"THICKNESS": [-0.2, -0.1, 0, 0.1, 0.2],
 }
 
 PARAM_SETS_CAHN_HILLIARD = {
