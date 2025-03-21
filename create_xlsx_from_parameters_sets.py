@@ -23,7 +23,7 @@ PARAM_SETS_CESOGEN = {
     "SCALING_X": [0.5],
     "SCALING_Y": [0.5],
     "SCALING_Z": [0.5],
-    "THICKNESS": [0],
+    "THICKNESS": [-0.2, -0.1, 0, 0.1, 0.2],
 }
 
 PARAM_SETS_CAHN_HILLIARD = {
