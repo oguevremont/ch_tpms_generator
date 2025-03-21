@@ -17,6 +17,6 @@ module load scipy-stack/2023b
 
 source ENVGEN_POREUX/bin/activate
 
-main.py
+python main.py
 
 deactivate
