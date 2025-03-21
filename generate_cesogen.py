@@ -16,10 +16,12 @@ def run(params,file_path="./generated.stl"):
         # key is the placeholder name (e.g., "PARAM1"), value is the actual parameter value (e.g., "10")
         if key == "THICKNESS":
             thickness_value = float(value)  # Ensure it's a float
-            if thickness_value < 0:
+            if thickness_value < -1e-16:
                 value = f"erode {abs(thickness_value)}"
-            else:
+            elif thickness_value > 1e-16:
                 value = f"dilate {thickness_value}"
+            else:
+                value = " "
         command_line_str = command_line_str.replace(key, str(value))
 
     # Execute the resulting command
