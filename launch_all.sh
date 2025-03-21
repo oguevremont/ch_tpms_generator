@@ -8,14 +8,15 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=guevremont.o@gmail.com
 
-module load python/3.11.5
-virtualenv --no-download $SLURM_TMPDIR/env
-source $SLURM_TMPDIR/env/bin/activate
-pip install --no-index --upgrade pip
-
-pip install --no-index -r $HOME/requirements.txt
 source $HOME/.dealii
+module load CCEnv #if on Niagara
+module load StdEnv/2023
+module load vtk/9.3.0
+module load python/3.11.5
+module load scipy-stack/2023b
 
-python main.py 
+source ENVGEN_POREUX/bin/activate
+
+main.py
 
 deactivate
