@@ -25,7 +25,7 @@ def create_job_script(job_id):
 #SBATCH --account=rrg-fede1988
 #SBATCH --ntasks-per-node=40 #number of parallel tasks (as in mpirun -np X)
 #SBATCH --nodes=1 #number of whole nodes used (each with up to 40 tasks-per-node)
-#SBATCH --time=4:00:00 #maximum time for the simulation (hh:mm:ss)
+#SBATCH --time=2:00:00 #maximum time for the simulation (hh:mm:ss)
 #SBATCH --job-name=case_{job_id}
 #SBATCH --mail-type=END #email preferences
 #SBATCH --mail-type=FAIL
