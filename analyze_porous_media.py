@@ -22,8 +22,10 @@ CSV_NAME  = "statistics.csv"
 verbosity = False
 plot      = False
 
-def read_and_produce_image(stl_name):
-    global PITCH, SIZE, SPACING
+def read_and_produce_image(stl_name, running_on_cluster=False):
+    global PITCH, SIZE, SPACING, NUMBER_OF_VOXELS
+    if running_on_cluster:
+        NUMBER_OF_VOXELS = NUMBER_OF_VOXELS*4 # We increase the finesse since clusters have much more memory
 
     # Load the STL and compute its bounds and size
     mesh = trimesh.load(stl_name)
@@ -334,8 +336,8 @@ def medium_statistics(image):
     print(dictionary)
     return dictionary
 
-def run(stl_name):
-    image      = read_and_produce_image(stl_name)
+def run(stl_name, running_on_cluster=False):
+    image      = read_and_produce_image(stl_name,running_on_cluster)
     dictionary = medium_statistics(image)
     return dictionary
 

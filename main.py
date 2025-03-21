@@ -45,7 +45,7 @@ mkdir -p $MPLCONFIGDIR $XDG_CACHE_HOME
 source ENVGEN_POREUX/bin/activate
 
 python generation_from_xlsx.py        --job_id {job_id} --excel_file_name {EXCEL_FILE} --running_on_cluster true
-python postprocess_generated_media.py --job_id {job_id}
+python postprocess_generated_media.py --job_id {job_id} --running_on_cluster true
 
 export OMP_NUM_THREADS=40
 srun --nodes=1 --ntasks=1 --exclusive --nodelist=$(scontrol show hostname $SLURM_NODELIST | head -n 1) \

@@ -3,7 +3,11 @@ import csv
 import analyze_porous_media
 import argparse
 
-def main(job_id=None):
+
+def str2bool(v):
+    return str(v).lower() in ('yes', 'true', 't', '1')
+
+def main(job_id=None, running_on_cluster=False):
     base_dir = "generated_media"
     csv_filename = "processed_porous_media_database.csv"
 
@@ -28,7 +32,7 @@ def main(job_id=None):
 
                 try:
                     # Run the analysis and get the results as a dictionary
-                    result_dict = analyze_porous_media.run(stl_path)
+                    result_dict = analyze_porous_media.run(stl_path,running_on_cluster)
 
                     # Add the results to the CSV database
                     add_dict_to_csv(result_dict, csv_filename, key_name=folder_name)
@@ -66,13 +70,15 @@ def add_dict_to_csv(data_dict, csv_filename, key_name):
         # Write the current dictionary entry
         writer.writerow(entry_dict)
 
-def run(job_id=None):
-    main(job_id)
+def run(job_id=None, running_on_cluster=False):
+    main(job_id,running_on_cluster)
     return 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Post-process generated porous media.")
     parser.add_argument("--job_id", type=str, required=True, help="Job ID to process.")
+    parser.add_argument("--running_on_cluster", type=str2bool, default=False,
+                    help="Whether to run on a cluster (true/false).")
 
     args = parser.parse_args()
-    run(job_id=args.job_id)
+    run(job_id=args.job_id, running_on_cluster=args.running_on_cluster)
