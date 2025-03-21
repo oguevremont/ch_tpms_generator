@@ -25,7 +25,7 @@ plot      = False
 def read_and_produce_image(stl_name, running_on_cluster=False):
     global PITCH, SIZE, SPACING, NUMBER_OF_VOXELS
     if running_on_cluster:
-        NUMBER_OF_VOXELS = NUMBER_OF_VOXELS*4 # We increase the finesse since clusters have much more memory
+        NUMBER_OF_VOXELS = NUMBER_OF_VOXELS*2 # We increase the finesse since clusters have much more memory
 
     # Load the STL and compute its bounds and size
     mesh = trimesh.load(stl_name)
